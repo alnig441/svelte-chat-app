@@ -82,7 +82,6 @@
     background-color: white;
     margin: 0px;
     padding: 2px;
-    /* overflow: scroll; */
   }
 
   #chat-log {

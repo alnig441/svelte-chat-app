@@ -23,47 +23,62 @@ const config = {
 			name: 'svelte-kit-io',
 			configureServer(server) {
 				const io = new Server(server.httpServer,{cors: { origin: ALLOWED }});
+				let moderatorIsConnected = false;
+				let moderatorID;
 				// io.use((socket, next) => {
 				// 	console.log('in use')
-				// 	isMaster = !socket.handshake.xdomain ;
+				// 	isModerator = !socket.handshake.xdomain ;
 				//
-				// 	if(isMaster) {
-				// 		masterIsConnected = true;
-				// 		socket.join('master');
+				// 	if(isModerator) {
+				// 		moderatorIsConnected = true;
+				// 		socket.join('moderator');
 				// 	}
 				// 	else {
 				// 		socket.join('active');
 				// 	}
-				// 	console.log('is master?: ', isMaster)
+				// 	console.log('is moderator?: ', isModerator)
 				// 	next();
 				// })
 
 				io.on('connection',  async (socket) => {
-					const activeRooms = io.to("active");
-					const masterRoom = io.to("master");
-					const isMaster = !socket.handshake.xdomain;
+					const toActiveRooms = io.to("active");
+					const toModerator = io.to("moderator");
+					const isModerator = !socket.handshake.xdomain;
 
-					if(isMaster) {
-						socket.join('master');
+					console.log(`is moderator? ${isModerator}: moderator connected? ${moderatorIsConnected}`)
+
+					if(isModerator) {
+						moderatorIsConnected = true;
+						moderatorID = socket.id;
+						socket.join('moderator');
 						let connections = await getConnections(socket);
-						masterRoom.emit('add rooms', connections);
+						toModerator.emit('add rooms', connections);
+						toActiveRooms.emit("welcome", "moderator says welcome");
 					} else {
 						socket.join('active');
-						masterRoom.emit('new room', socket.id);
-						socket.emit('welcome', 'any questions?')
+						toModerator.emit('new room', socket.id);
+						if(moderatorIsConnected) {
+							socket.emit('welcome', 'any questions?')
+						}
 					}
 
-					// socket.emit("welcome", socket.id);
-
 					socket.on('disconnect', (reason) => {
-						console.log('disconnect reason: ', reason)
-						masterRoom.emit('remove room', socket.id);
+						let moderator = (moderatorID === socket.id);
+						console.log(`moderator disconnect ? : ${moderator} - ${reason}`)
+						if(moderator) {
+							console.log('send disconnect to active rooms');
+							toActiveRooms.emit("moderator left", "moderator has left the chat");
+							moderatorIsConnected = false;
+						}
+						else {
+							toModerator.emit('remove room', socket.id);
+						}
 					})
 
 					socket.on('message', (message, roomId) => {
 						console.log('message received: ', message, roomId, socket.id)
 						if(!roomId) {
-							socket.to("master").emit('message', message, socket.id);
+							socket.to("moderator").emit('message', message, socket.id);
 						} else {
 							socket.to(roomId).emit('message', message);
 						}
