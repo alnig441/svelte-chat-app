@@ -67,7 +67,7 @@ const config = {
 						console.log(`moderator disconnect ? : ${moderator} - ${reason}`)
 						if(moderator) {
 							console.log('send disconnect to active rooms');
-							toActiveRooms.emit("moderator left", "moderator has left the chat");
+							toActiveRooms.emit("moderator left", "moderator left");
 							moderatorIsConnected = false;
 						}
 						else {

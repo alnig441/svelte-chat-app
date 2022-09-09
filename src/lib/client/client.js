@@ -5,7 +5,7 @@ const URL = "http://localhost:5173";
 (function(){
 
   const socket = io(URL);
-  let incoming = false;
+  // let incoming = false;
   let connectAttempts = 0;
   let moderatorIsConnected = false;
   let input;
@@ -16,29 +16,31 @@ const URL = "http://localhost:5173";
     })
 
     socket.on("welcome", (message) => {
+      let type;
       connectAttempts ++;
       moderatorIsConnected = true;
-      incoming = true;
+      // incoming = true;
 
       if(connectAttempts === 1) {
         insertChat();
       } else {
-        message = "moderator rejoined the chat";
+        message = "moderator rejoined";
+        type = "info";
         disableInputToggle();
       };
 
-      postMessage(message);
+      postMessage(message, type);
     })
 
     socket.on("message", (message) => {
-      incoming = true;
+      // incoming = true;
       postMessage(message);
     })
 
     socket.on("moderator left", (message) => {
       moderatorIsConnected = false;
-      incoming = true;
-      postMessage(message);
+      // incoming = true;
+      postMessage(message, "info");
       disableInputToggle();
     })
 
@@ -89,7 +91,7 @@ const URL = "http://localhost:5173";
 
   function onSubmit(e) {
     e.preventDefault();
-    incoming = false;
+    // incoming = false;
     const input = document.getElementById('chatInput');
     const type = e.type.toLowerCase();
     let key;
@@ -98,24 +100,28 @@ const URL = "http://localhost:5173";
       key = e.key.toLowerCase();
     }
 
-    const doProceed = (type === 'click' || (type === 'keyup' && key === 'enter'));
+    const doProceed = (input.value.length > 0 && (type === 'click' || (type === 'keyup' && key === 'enter')));
 
     if(doProceed){
       socket.emit('message', input.value);
-      postMessage(input.value);
+      postMessage(input.value, "response");
       input.value = '';
     }
     return;
   }
 
-  function postMessage(input) {
+  function postMessage(input, type) {
     const chat = document.getElementById('chatBox');
     const p = document.createElement('p');
-    if(incoming) {
+
+    if(type === "response") {
       p.setAttribute('style', 'margin:0px;padding:3px;font-family:Code New Roman; background-color:beige; width: 95%;text-indent: 2px;text-align:right')
+    } else if(type === "info") {
+      p.setAttribute('style', 'text-align:center;color:cornflowerblue;margin:0px;padding:3px;font-family:Code New Roman; width:95%')
     } else {
       p.setAttribute('style', 'margin:0px;padding:3px;font-family:Code New Roman; width:95%')
     }
+
     p.innerHTML = input;
     chat.append(p);
     p.scrollIntoView({ behavior: 'smooth', block: 'end', inline: 'nearest'})
