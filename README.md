@@ -1,6 +1,6 @@
-# Chat Application 
+# Chat Application
 
-## TECNOLOGIES
+## TEChNOLOGIES
 - svelte
 - socket.io
 - node/express
