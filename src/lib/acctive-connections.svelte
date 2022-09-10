@@ -28,9 +28,10 @@
   function onClick(e) {
     const thisRoom = e.target.value;
     activeRoom.set(thisRoom);
-    if($activeRoom === thisRoom) {
+    if($activeRoom === $roomAlert) {
       roomAlert.set('');
     }
+    return;
   }
 
 </script>
@@ -72,6 +73,7 @@
 
   .alert {
     background-color: #FF5B20;
+    color: white;
   }
 
 </style>
