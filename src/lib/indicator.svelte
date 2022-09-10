@@ -21,10 +21,10 @@
     width: 15px;
     height: 15px;
     border-radius: 50%;
-    background-color: red;
+    background-color: #ff0000;
   }
 
   .green {
-    background-color: green;
+    background-color: #4CFF2B;
   }
 </style>

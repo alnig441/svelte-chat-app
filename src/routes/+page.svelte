@@ -27,7 +27,7 @@
     grid-template-columns: 8% 92%;
     grid-template-rows: 25px 290px;
     border-radius: 2px;
-    background-color: steelblue;
+    background-color: #8abcd4;
   }
 
   #status-indicator {

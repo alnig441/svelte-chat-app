@@ -6,8 +6,7 @@
 
   afterUpdate( (x) => {
     if(latest) {
-      // latest.scrollIntoView({ behavior: 'smooth', block: 'end', inline: 'nearest'});
-      latest.scrollIntoView()
+      latest.scrollIntoView({ behavior: 'smooth', block: 'end', inline: 'nearest'});
     }
   })
 
@@ -118,10 +117,6 @@
     border-radius: 5px;
     background-color: lightgray;
   }
-
-  /* ::-webkit-scrollbar {
-    width: 3px;
-  } */
 
   @media screen and (max-width: 480px){
   }

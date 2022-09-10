@@ -62,14 +62,16 @@
     width: 25px;
     height: 25px;
     margin-bottom: 3px;
+    border-radius: 5px;
   }
 
   .active {
-    background-color: slategray;
+    background-color: #20618A;
+    color: white;
   }
 
   .alert {
-    background-color: yellow;
+    background-color: #FF5B20;
   }
 
 </style>
