@@ -75,9 +75,8 @@
 
   #chat-window {
     width: 100%;
-    height: 250px;
+    height: 265px;
     border: 1px solid;
-    display: inline-grid;
     border-radius: 3px;
     background-color: white;
     margin: 0px;
@@ -85,10 +84,10 @@
   }
 
   #chat-log {
-    height: 245px;
+    max-height: 260px;
     overflow: scroll;
     position: absolute;
-    bottom: 30px;
+    bottom: 35px;
     width: 85%;
     margin: 0 3px;
   }
@@ -118,6 +117,9 @@
     text-align: right;
     border-radius: 5px;
     background-color: lightgray;
+  }
+
+  @media screen and (max-width: 480px){
   }
 
 </style>

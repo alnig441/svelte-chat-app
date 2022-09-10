@@ -45,38 +45,35 @@ const config = {
 					const toModerator = io.to("moderator");
 					const isModerator = !socket.handshake.xdomain;
 
-					console.log(`is moderator? ${isModerator}: moderator connected? ${moderatorIsConnected}`)
-
 					if(isModerator) {
 						moderatorIsConnected = true;
 						moderatorID = socket.id;
 						socket.join('moderator');
 						let connections = await getConnections(socket);
 						toModerator.emit('add rooms', connections);
-						toActiveRooms.emit("welcome", "moderator says welcome");
+						toActiveRooms.emit("welcome", "let me know if I can answer any questions!");
 					} else {
 						socket.join('active');
 						toModerator.emit('new room', socket.id);
 						if(moderatorIsConnected) {
-							socket.emit('welcome', 'any questions?')
+							socket.emit('welcome', 'let me know if I can answer any questions!')
 						}
 					}
 
 					socket.on('disconnect', (reason) => {
 						let moderator = (moderatorID === socket.id);
-						console.log(`moderator disconnect ? : ${moderator} - ${reason}`)
 						if(moderator) {
-							console.log('send disconnect to active rooms');
+							console.log(`moderator disconnected - ${reason}`)
 							toActiveRooms.emit("moderator left", "moderator left");
 							moderatorIsConnected = false;
 						}
 						else {
+							console.log(`room disconnected - ${reason}`)
 							toModerator.emit('remove room', socket.id);
 						}
 					})
 
 					socket.on('message', (message, roomId) => {
-						console.log('message received: ', message, roomId, socket.id)
 						if(!roomId) {
 							socket.to("moderator").emit('message', message, socket.id);
 						} else {

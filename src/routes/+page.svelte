@@ -26,25 +26,44 @@
     /* height: 300px; */
     display: grid;
     grid-template-columns: 10% 90%;
+    grid-template-rows: 25px 300px;
     border-radius: 2px;
     background-color: steelblue;
   }
 
+  #status-indicator {
+    grid-row: 1 / span 1;
+    grid-column: 1 / span 1;
+    text-align: center;
+  }
   #authenticate {
-    grid-column: 2;
+    grid-row: 1 / span 1;
+    grid-column: 2 / span 1;
   }
 
   #current-connections {
-    grid-column: 1;
+    grid-row: 2 / span 1;
+    grid-column: 1 / span 1;
     text-align: center;
   }
 
   #active-chat {
-    grid-column: 2;
+    height: 100%;
+    grid-row: 2 / span 1;
+    grid-column: 2 / span 1;
   }
 
-  #status-indicator {
-    grid-column: 1;
-    text-align: center;
+  @media screen and (max-width: 480px){
+    #app-container {
+      height: 100%;
+      grid-template-rows: 25px 93%;
+      grid-template-columns: 10% 88%;
+    }
+
+    #active-chat {
+      height: 100%;
+    }
+
   }
+
 </style>

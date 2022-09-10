@@ -5,7 +5,6 @@ const URL = "http://localhost:5173";
 (function(){
 
   const socket = io(URL);
-  // let incoming = false;
   let connectAttempts = 0;
   let moderatorIsConnected = false;
   let input;
@@ -19,29 +18,26 @@ const URL = "http://localhost:5173";
       let type;
       connectAttempts ++;
       moderatorIsConnected = true;
-      // incoming = true;
 
       if(connectAttempts === 1) {
         insertChat();
       } else {
         message = "moderator rejoined";
         type = "info";
-        disableInputToggle();
+        enableInput(true);
       };
 
       postMessage(message, type);
     })
 
     socket.on("message", (message) => {
-      // incoming = true;
       postMessage(message);
     })
 
     socket.on("moderator left", (message) => {
       moderatorIsConnected = false;
-      // incoming = true;
       postMessage(message, "info");
-      disableInputToggle();
+      enableInput(false);
     })
 
     socket.onAny((event, ...args) => {
@@ -87,11 +83,11 @@ const URL = "http://localhost:5173";
     chatAppContainer.append(chatBoxForm);
 
     document.body.append(chatAppContainer);
+    return;
   }
 
   function onSubmit(e) {
     e.preventDefault();
-    // incoming = false;
     const input = document.getElementById('chatInput');
     const type = e.type.toLowerCase();
     let key;
@@ -128,12 +124,11 @@ const URL = "http://localhost:5173";
     return;
   }
 
-  function disableInputToggle() {
+  function enableInput(enable) {
     const input = document.getElementById("chatInput");
     const send = document.getElementById("chatSend");
-    const isDisabled = input.hasAttribute("disabled");
 
-    if(isDisabled) {
+    if(enable) {
       input.removeAttribute("disabled");
       send.removeAttribute("disabled");
     } else {
