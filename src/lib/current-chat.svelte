@@ -87,9 +87,9 @@
     max-height: 260px;
     overflow: scroll;
     position: absolute;
-    bottom: 35px;
-    width: 85%;
-    margin: 0 3px;
+    bottom: 25px;
+    width: 89%;
+    /* margin: 0 3px; */
   }
 
   input {
@@ -106,7 +106,7 @@
   }
 
   p {
-    margin: 1px 0px;
+    margin: 5px 10px;
     height: fit-content;
     padding: 3px;
     font-family: Code New Roman;
@@ -118,6 +118,10 @@
     border-radius: 5px;
     background-color: lightgray;
   }
+
+  /* ::-webkit-scrollbar {
+    width: 3px;
+  } */
 
   @media screen and (max-width: 480px){
   }

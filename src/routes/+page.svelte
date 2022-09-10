@@ -23,10 +23,9 @@
   }
 
   #app-container {
-    /* height: 300px; */
     display: grid;
-    grid-template-columns: 10% 90%;
-    grid-template-rows: 25px 300px;
+    grid-template-columns: 8% 92%;
+    grid-template-rows: 25px 290px;
     border-radius: 2px;
     background-color: steelblue;
   }
@@ -54,16 +53,6 @@
   }
 
   @media screen and (max-width: 480px){
-    #app-container {
-      height: 100%;
-      grid-template-rows: 25px 93%;
-      grid-template-columns: 10% 88%;
-    }
-
-    #active-chat {
-      height: 100%;
-    }
-
   }
 
 </style>
