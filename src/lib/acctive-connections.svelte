@@ -72,28 +72,28 @@
   }
 
   .alert {
-    background-color: #FF5B20;
-    color: white;
-
-    box-shadow: 0 0 0 0 rgba(0, 0, 0, 1);
-    transform: scale(1);
-    animation: pulse 2s infinite;
+    animation: flash 1.5s infinite;
   }
 
-  @keyframes pulse {
+
+  @keyframes flash {
 	0% {
+    background-color: white;
+    box-shadow: 0 0 0 3 rgba(0,0,0,0);
 		transform: scale(0.95);
-		box-shadow: 0 0 0 0 rgba(0, 0, 0, 0.7);
 	}
 
-	70% {
+	50% {
+    box-shadow: 0 0 0 0px rgba(0, 0, 0, 0);
+    background-color: #FF5B20;
+    color: white;
 		transform: scale(1);
-		box-shadow: 0 0 0 10px rgba(0, 0, 0, 0);
 	}
 
 	100% {
+    background-color: white;
+    box-shadow: 0 0 0 3 rgba(0,0,0,0);
 		transform: scale(0.95);
-		box-shadow: 0 0 0 0 rgba(0, 0, 0, 0);
 	}
 }
 

@@ -24,7 +24,7 @@
 
   #app-container {
     display: grid;
-    grid-template-columns: 8% 92%;
+    grid-template-columns: 30px auto;
     grid-template-rows: 25px 290px;
     border-radius: 2px;
     background-color: #8abcd4;
