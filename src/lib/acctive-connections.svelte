@@ -79,15 +79,15 @@
   @keyframes flash {
 	0% {
     background-color: white;
-    box-shadow: 0 0 0 3 rgba(0,0,0,0);
+    box-shadow: 0 0 0 3 rgba(255, 91, 32,0);
 		transform: scale(0.95);
 	}
 
 	50% {
-    box-shadow: 0 0 0 0px rgba(0, 0, 0, 0);
+    box-shadow: 0 0 0 0 rgba(0, 64, 87, 0);
     background-color: #FF5B20;
-    color: white;
-		transform: scale(1);
+    color: #ffffff;
+		transform: scale(1.1);
 	}
 
 	100% {
