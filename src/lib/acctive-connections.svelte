@@ -1,5 +1,10 @@
 <script>
   import { isLoggedIn, rooms, activeRoom, clientIO, roomAlert } from './stores';
+  import { afterUpdate } from 'svelte';
+
+  let buttons
+
+  afterUpdate(() => { })
 
   isLoggedIn.subscribe((isTrue) => {
     if(isTrue) {
@@ -27,24 +32,27 @@
 
   function onClick(e) {
     const thisRoom = e.target.value;
+    const isAlerting = $roomAlert.find(room => room === thisRoom);
     activeRoom.set(thisRoom);
-    if($activeRoom === $roomAlert) {
-      roomAlert.set('');
+
+    if(isAlerting) {
+      let alerts = $roomAlert.filter( room => room !== thisRoom);
+      roomAlert.set(alerts);
     }
     return;
   }
 
 </script>
 
-<div id="connections">
 {#if $isLoggedIn}
+  <div id="connections" bind:this={buttons}>
   {#each $rooms as room, i }
     {#if room }
-      <button class:alert={$roomAlert === room} class:active={$activeRoom === room} value={room} on:click|preventDefault={onClick}>{i}</button>
+      <button class:alert={$roomAlert.find(alert => alert === room)} class:active={$activeRoom === room} value={room} on:click|preventDefault={onClick}>{i}</button>
     {/if}
   {/each}
+  </div>
 {/if}
-</div>
 
 <style>
   * {
@@ -55,6 +63,8 @@
 
 
   #connections {
+    height: 280px;
+    overflow: scroll;
     display: inline-grid;
     margin: 3px;
   }

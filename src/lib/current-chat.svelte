@@ -14,7 +14,9 @@
     if(isTrue) {
       $clientIO.on("message", (message, id) => {
         if($activeRoom !== id) {
-          roomAlert.set(id);
+          let alerts = $roomAlert;
+          alerts.push(id);
+          roomAlert.set(alerts);
         }
         let log = $chatLog;
         log.push({ room: id, id: "client", message: message })
@@ -88,7 +90,6 @@
     position: absolute;
     bottom: 25px;
     width: 89%;
-    /* margin: 0 3px; */
   }
 
   input {
