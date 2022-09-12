@@ -45,7 +45,7 @@
 </script>
 
 {#if $isLoggedIn}
-  <div id="connections" bind:this={buttons} class:filtered={$filtered.length > 0}>
+  <div id="connections" bind:this={buttons} >
   {#if $filtered.length > 0 }
     {#each $filtered as room, i }
       {#if room }
@@ -71,7 +71,7 @@
 
 
   #connections {
-    height: 280px;
+    max-height: 280px;
     overflow: scroll;
     display: inline-grid;
     margin: 3px;
@@ -88,10 +88,6 @@
     height: 25px;
     margin-bottom: 3px;
     border-radius: 5px;
-  }
-
-  .filtered {
-    height: fit-content !important;
   }
 
   .active {

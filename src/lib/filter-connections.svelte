@@ -52,36 +52,10 @@
     height: 20px;
   }
 
-  .green {
-    background-color: #4CFF2B;
-  }
-
   .alert {
     background-color: #FF5B20;
-    /* animation: flash 1.5s infinite; */
     border-radius: 3px;
   }
 
-
-  @keyframes flash {
-    0% {
-      /* background-color: #4CFF2B; */
-      box-shadow: 0 0 0 0 rgba(255, 91, 32,0);
-      transform: scale(0.95);
-    }
-
-    50% {
-      box-shadow: 0 0 0 0 rgba(0, 64, 87, 0);
-      background-color: #FF5B20;
-      /* color: #ffffff; */
-      transform: scale(1.1);
-    }
-
-    100% {
-      /* background-color: #4CFF2B; */
-      box-shadow: 0 0 0 0 rgba(0,0,0,0);
-      transform: scale(0.95);
-    }
-  }
 
 </style>
