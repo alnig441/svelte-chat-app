@@ -6,4 +6,5 @@ export const  isLoggedIn = writable(false),
               activeRoom = writable(null),
               clientIO = writable({}),
               roomAlert = writable([]),
-              chatLog = writable([])
+              chatLog = writable([]),
+              filtered = writable([])

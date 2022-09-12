@@ -1,5 +1,5 @@
 <script>
-  import { isLoggedIn, rooms, activeRoom, clientIO, roomAlert } from './stores';
+  import { isLoggedIn, rooms, activeRoom, clientIO, roomAlert, filtered } from './stores';
   import { afterUpdate } from 'svelte';
 
   let buttons
@@ -45,12 +45,20 @@
 </script>
 
 {#if $isLoggedIn}
-  <div id="connections" bind:this={buttons}>
+  <div id="connections" bind:this={buttons} class:filtered={$filtered.length > 0}>
+  {#if $filtered.length > 0 }
+    {#each $filtered as room, i }
+      {#if room }
+        <button class:alert={$roomAlert.find(alert => alert === room)} class:active={$activeRoom === room} value={room} on:click|preventDefault={onClick}>{i}</button>
+      {/if}
+    {/each}
+  {:else if $rooms.length > 0}
   {#each $rooms as room, i }
     {#if room }
       <button class:alert={$roomAlert.find(alert => alert === room)} class:active={$activeRoom === room} value={room} on:click|preventDefault={onClick}>{i}</button>
     {/if}
   {/each}
+  {/if}
   </div>
 {/if}
 
@@ -67,6 +75,12 @@
     overflow: scroll;
     display: inline-grid;
     margin: 3px;
+    ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+
+  #connections::-webkit-scrollbar {
+    display: none;
   }
 
   button {
@@ -74,6 +88,10 @@
     height: 25px;
     margin-bottom: 3px;
     border-radius: 5px;
+  }
+
+  .filtered {
+    height: fit-content !important;
   }
 
   .active {
@@ -98,6 +116,7 @@
     background-color: #FF5B20;
     color: #ffffff;
 		transform: scale(1.1);
+    border-radius: 5px;
 	}
 
 	100% {

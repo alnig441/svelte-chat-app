@@ -2,14 +2,14 @@
   import Login from '$lib/Login.svelte';
   import AcctiveConnections from '$lib/acctive-connections.svelte';
   import CurrentChat from '$lib/current-chat.svelte';
-  import Indicator from '$lib/indicator.svelte';
+  import FilterConnections from '$lib/filter-connections.svelte';
 
   export let data, error
 
 </script>
 
 <div id="app-container">
-  <div id="status-indicator"><Indicator/></div>
+  <div id="filter"><FilterConnections/></div>
   <div id="authenticate"><Login client={data} /></div>
 	<div id="current-connections"><AcctiveConnections /></div>
   <div id="active-chat"><CurrentChat /></div>
@@ -30,7 +30,7 @@
     background-color: #8abcd4;
   }
 
-  #status-indicator {
+  #filter {
     grid-row: 1 / span 1;
     grid-column: 1 / span 1;
     text-align: center;
