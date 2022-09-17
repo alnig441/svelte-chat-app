@@ -8,7 +8,6 @@
 
   isLoggedIn.subscribe((isTrue) => {
     if(isTrue) {
-
       $clientIO.on('add rooms', (ids) => {
         rooms.set(ids.filter( room => room));
       })
@@ -21,6 +20,9 @@
 
       $clientIO.on("remove room", (id) => {
         rooms.set(disconnectRoom(id));
+        if($activeRoom === id) {
+          activeRoom.set(null);
+        }
       })
     }
   })
@@ -49,12 +51,14 @@
   {#if $filtered.length > 0 }
     {#each $filtered as room, i }
       {#if room }
+        <!-- <input type="text" class:alert={$roomAlert.find(alert => alert === room)} class:active={$activeRoom === room} value={i} data-value={room} on:click|preventDefault={onClick}> -->
         <button class:alert={$roomAlert.find(alert => alert === room)} class:active={$activeRoom === room} value={room} on:click|preventDefault={onClick}>{i}</button>
       {/if}
     {/each}
   {:else if $rooms.length > 0}
   {#each $rooms as room, i }
     {#if room }
+      <!-- <input type="text" class:alert={$roomAlert.find(alert => alert === room)} class:active={$activeRoom === room} value={i} data-value={room} on:click|preventDefault={onClick}> -->
       <button class:alert={$roomAlert.find(alert => alert === room)} class:active={$activeRoom === room} value={room} on:click|preventDefault={onClick}>{i}</button>
     {/if}
   {/each}
@@ -74,7 +78,7 @@
     max-height: 280px;
     overflow: scroll;
     display: inline-grid;
-    margin: 3px;
+    padding: 3px;
     ms-overflow-style: none;
     scrollbar-width: none;
   }
@@ -83,11 +87,14 @@
     display: none;
   }
 
-  button {
+  button, input {
     width: 25px;
     height: 25px;
     margin-bottom: 3px;
     border-radius: 5px;
+    text-align: center;
+    /* border: 2.5px solid; */
+    /* box-shadow:none; */
   }
 
   .active {
@@ -96,7 +103,42 @@
   }
 
   .alert {
-    animation: flash 1.5s infinite;
+    animation-name: jiggle;
+    animation-duration: 1s;
+    animation-iteration-count: infinite;
+    animation-delay: 0.5s;
+    animation-direction: alternate;
+    /* animation: flash 1.5s infinite; */
+  }
+
+  @keyframes jiggle {
+    0%   {
+      background-color: #FF5B20;
+      transform: rotate(0deg);
+      box-shadow: none;
+      z-index: 1;
+    }
+    33%  {
+      background-color: #FF5B20;
+      transform: rotate(10deg);
+      box-shadow: none;
+      z-index: 1;
+
+    }
+    66%  {
+      background-color: #FF5B20;
+      transform: rotate(-10deg);
+      box-shadow: none;
+      z-index: 1;
+
+    }
+    100% {
+      background-color: #FF5B20;
+      transform: rotate(0deg);
+      box-shadow: none;
+      z-index: 1;
+
+    }
   }
 
 
