@@ -1,17 +1,16 @@
 <script>
   import Login from '$lib/Login.svelte';
-  import AcctiveConnections from '$lib/acctive-connections.svelte';
+  import ActiveConnections from '$lib/active-connections.svelte';
   import CurrentChat from '$lib/current-chat.svelte';
   import FilterConnections from '$lib/filter-connections.svelte';
 
-  export let data, error
-
+  export let data
 </script>
 
 <div id="app-container">
   <div id="filter"><FilterConnections/></div>
   <div id="authenticate"><Login client={data} /></div>
-	<div id="current-connections"><AcctiveConnections /></div>
+	<div id="current-connections"><ActiveConnections /></div>
   <div id="active-chat"><CurrentChat /></div>
 </div>
 
