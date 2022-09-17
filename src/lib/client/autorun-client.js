@@ -1,25 +1,20 @@
 "use strict";
+import { io } from "https://cdn.socket.io/4.4.1/socket.io.esm.min.js";
+const URL = "http://localhost:5173";
 
-const ChatClient = function(){
-  let socket;
+
+(function(){
+  const socket = io(URL);
   let connectAttempts = 0;
   let moderatorIsConnected = false;
+  let input;
 
-  function init(url, options) {
-    socket = io(url, options);
-    run(socket);
-  }
+  window.onload = (e) => {
 
-  function run() {
     socket.on('connect', () => {
-      console.log('ChatClient running ')
     })
 
-    socket.onAny((event, ...args) => {
-      console.log(`event: "${event}"`);
-    })
-
-    socket.on('welcome', (message) => {
+    socket.on("welcome", (message) => {
       let type;
       connectAttempts ++;
       moderatorIsConnected = true;
@@ -30,18 +25,23 @@ const ChatClient = function(){
         message = "moderator rejoined";
         type = "info";
         enableInput(true);
-      }
+      };
+
       postMessage(message, type);
     })
 
-    socket.on('message', message => {
+    socket.on("message", (message) => {
       postMessage(message);
     })
 
-    socket.on('moderator left', (message) => {
+    socket.on("moderator left", (message) => {
       moderatorIsConnected = false;
       postMessage(message, "info");
       enableInput(false);
+    })
+
+    socket.onAny((event, ...args) => {
+      console.log(`event: "${event}" - args: "${args}"`)
     })
 
   }
@@ -138,6 +138,4 @@ const ChatClient = function(){
     return;
   }
 
-  return { init: init}
-
-}()
+})();
