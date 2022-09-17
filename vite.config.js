@@ -25,25 +25,12 @@ const config = {
 				const io = new Server(server.httpServer,{cors: { origin: ALLOWED }});
 				let moderatorIsConnected = false;
 				let moderatorID;
-				// io.use((socket, next) => {
-				// 	console.log('in use')
-				// 	isModerator = !socket.handshake.xdomain ;
-				//
-				// 	if(isModerator) {
-				// 		moderatorIsConnected = true;
-				// 		socket.join('moderator');
-				// 	}
-				// 	else {
-				// 		socket.join('active');
-				// 	}
-				// 	console.log('is moderator?: ', isModerator)
-				// 	next();
-				// })
+
 
 				io.on('connection',  async (socket) => {
 					const toActiveRooms = io.to("active");
 					const toModerator = io.to("moderator");
-					const isModerator = !socket.handshake.xdomain;
+					const isModerator = (socket.handshake.auth.type === 'moderator');
 
 					if(isModerator) {
 						moderatorIsConnected = true;
