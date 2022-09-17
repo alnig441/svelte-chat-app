@@ -36,8 +36,10 @@
   }
 
   function onKeyUp(e) {
-    if(e.key && e.key.toLowerCase() === 'enter') {
-      onSend()
+    if($isLoggedIn && message) {
+      if(e.key && e.key.toLowerCase() === 'enter') {
+        onSend(e)
+      }
     }
   }
 
@@ -57,7 +59,7 @@
   </div>
   <div id="chat-input-panel">
     <input disabled={!$activeRoom} bind:value={message} type="text" placeholder="message text">
-    <input type="button" value="send" on:click|preventDefault={onSend} >
+    <input type="button" value="send" on:click|preventDefault={onSend}>
   </div>
 </div>
 

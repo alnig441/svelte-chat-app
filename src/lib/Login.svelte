@@ -9,7 +9,8 @@
     isAllowed = (client.username === username && client.password === password);
 
     if(!$isLoggedIn && isAllowed) {
-      clientIO.set(ioClient(client.endpoint))
+      const options = { auth: { type: 'moderator' }};
+      clientIO.set(ioClient( client.endpoint, options ))
       isLoggedIn.set(true)
       password = ''
       username = ''

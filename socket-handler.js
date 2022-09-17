@@ -9,34 +9,69 @@ export default function socketIoHandler(server) {
     }
   })
 
-  let isMaster;
-  let masterIsConnected = false;
-  let activeRooms;
-  let masterRoom;
+  const toActiveRooms = io.to("active");
+  const toModerator = io.to("moderator");
+  let moderatorIsConnected = false;
+  let moderatorID;
+  let isModerator;
 
-  io.use((socket, next) => {
-    isMaster = !socket.handshake.xdomain ;
+  io.use( async (socket, next) => {
 
-    if(isMaster) {
-      masterIsConnected = true;
-      socket.join('master');
-    }
-    else {
+    isModerator = (socket.handshake.auth.type === 'moderator');
+
+    if(isModerator) {
+      moderatorIsConnected = true;
+      moderatorID = socket.id;
+      socket.join('moderator');
+    } else {
       socket.join('active');
     }
-    console.log('is master?: ', isMaster)
+
     next();
   })
 
-  io.on('connection', (socket) => {
-    console.log('new connection: ', socket.id);
-    socket.emit("welcome", "here is your id");
+  io.on('connection',  async (socket) => {
 
-    socket.on("message", (message, roomId) => {
-      console.log("incoming message: ", message);
+    if(socket.id === moderatorID) {
+      let connections = await getConnections(socket);
+      toModerator.emit('add rooms', connections);
+      toActiveRooms.emit("welcome", "let me know if I can answer any questions!");
+    } else {
+      toModerator.emit('new room', socket.id);
+      if(moderatorIsConnected) {
+        socket.emit('welcome', 'let me know if I can answer any questions!')
+      }
+    }
+
+    socket.on('disconnect', (reason) => {
+      let moderator = (moderatorID === socket.id);
+      if(moderator) {
+        toActiveRooms.emit("moderator left", "moderator left");
+        moderatorIsConnected = false;
+      }
+      else {
+        toModerator.emit('remove room', socket.id);
+      }
+    })
+
+    socket.on('message', (message, roomId) => {
+      if(!roomId) {
+        socket.to("moderator").emit('message', message, socket.id);
+      } else {
+        socket.to(roomId).emit('message', message);
+      }
     })
 
   })
+
+  async function getConnections(socket) {
+    const connections = await io.fetchSockets();
+    return connections.map(connection => {
+      if(connection.id !== socket.id) {
+        return connection.id;
+      }
+    })
+  }
 
   console.log('socket.io injected');
 }
