@@ -32,6 +32,8 @@ const config = {
 					const toModerator = io.to("moderator");
 					const isModerator = (socket.handshake.auth.type === 'moderator');
 
+					console.log('is moderator: ', socket.handshake.auth)
+
 					if(isModerator) {
 						moderatorIsConnected = true;
 						moderatorID = socket.id;

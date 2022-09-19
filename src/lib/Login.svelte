@@ -4,13 +4,15 @@
 
   export let client
   let password, username, isAllowed
+  console.log('client data: ', client)
 
   function onSubmit(e) {
     isAllowed = (client.username === username && client.password === password);
 
     if(!$isLoggedIn && isAllowed) {
       const options = { auth: { type: 'moderator' }};
-      clientIO.set(ioClient( client.endpoint, options ))
+      clientIO.set(ioClient(options));
+      // clientIO.set(ioClient( client.endpoint, options ))
       isLoggedIn.set(true)
       password = ''
       username = ''

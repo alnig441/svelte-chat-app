@@ -11,7 +11,8 @@ export async function load(data) {
 
   const ENDPOINT = port === '5173'  ? PUBLIC_ENDPOINT_DEV : port === '4173' ? PUBLIC_ENDPOINT_PREVIEW : PUBLIC_ENDPOINT_PROD ;
   // const post = { username: process.env.USERNAME, password: process.env.PASSWORD, endpoint: process.env.ENDPOINT_DEV };
-  const post = { username: USERNAME, password: PASSWORD, endpoint: ENDPOINT };
+  // const post = { username: USERNAME, password: PASSWORD, endpoint: ENDPOINT };
+  const post = { username: USERNAME, password: PASSWORD };
 
   if (post) {
     return post;
