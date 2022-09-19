@@ -4,7 +4,6 @@
 
   export let client
   let password, username, isAllowed
-  console.log('client data: ', client)
 
   function onSubmit(e) {
     isAllowed = (client.username === username && client.password === password);
