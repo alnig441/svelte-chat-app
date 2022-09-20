@@ -48,7 +48,7 @@ const ChatClient = function(){
 
   function insertChat() {
     const chatAppContainer = document.createElement('div');
-    chatAppContainer.setAttribute('style', 'position:fixed;left:25px;bottom:25px;height:250px;border:1px solid black;margin:auto;border-radius:3px;')
+    chatAppContainer.setAttribute('style', 'background-color:white;opacity:0.9;position:fixed;left:25px;bottom:25px;height:250px;border:1px solid black;margin:auto;border-radius:3px;')
 
     const chatBoxContainer = document.createElement('div');
     chatBoxContainer.setAttribute('style', 'margin:0px;margin:0px;padding:0px;height:225px;overflow:scroll;');
@@ -67,6 +67,7 @@ const ChatClient = function(){
 
     const chatInput = document.createElement('input');
     chatInput.setAttribute('id', 'chatInput');
+    chatInput.setAttribute('pattern','[A-Za-z0-9]');
     chatInput.addEventListener('keyup', onSubmit);
 
     const chatSendButton = document.createElement('button');
