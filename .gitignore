@@ -7,3 +7,5 @@ node_modules
 .env
 .env.*
 !.env.example
+/src/lib/client/index.html
+src/lib/client/index.hmtl
